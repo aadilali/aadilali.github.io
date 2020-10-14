@@ -1,6 +1,14 @@
-import React from 'react';
+import  React, { useEffect } from 'react';
 
 function Hero() {
+
+    console.log("HERO");
+
+
+    useEffect(() => {
+        document.title = "HOME";
+    }, []);
+
     return (
             <div className="slider-area ">
                 <div className="slider-active">

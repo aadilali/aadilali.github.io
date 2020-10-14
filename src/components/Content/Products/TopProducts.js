@@ -1,6 +1,10 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect, useContext }  from 'react';
 
 import {NavLink} from 'react-router-dom';
+import AddToCart from './AddToCart';
+import CartContext from '../../../contexts/CartContext';
+
+import NewForm from '../NewForm';
 
 function TopProducts() {
     
@@ -9,7 +13,10 @@ function TopProducts() {
     const [items, setItems] = useState([]);
     
     useEffect(() => {
-        fetch("https://fakestoreapi.com/products?limit=3")
+
+        document.title = "Products";
+
+        fetch("https://fakestoreapi.com/products?limit=6")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -26,6 +33,8 @@ function TopProducts() {
                 )
     }, []);
 
+    const [cObj, myupdateCart] = useContext(CartContext);
+
     if (error) {
         return <div>Error: {error.message}</div>;
       } else if (!isLoaded) {
@@ -34,6 +43,8 @@ function TopProducts() {
             return(
                 <section className="categories-area section-padding3">
                     <div className="container">
+
+                        <NewForm />
                         <div className="row">
                             <div className="col-lg-6">
                                 <div className="section-tittle mb-70">
@@ -47,11 +58,13 @@ function TopProducts() {
                                     <div className="col-lg-4 col-md-6 col-sm-6" key={ item.id }>
                                         <div className="single-cat text-center mb-50">
                                             <div className="cat-icon">
-                                                <span className="product-image"><img src={ item.image } /></span>
+                                                <span className="product-image"><img src={ item.image } alt={item.title} /></span>
                                             </div>
                                             <div className="cat-cap">
                                                 <h5><NavLink to={ '/product/'+item.id }>{ item.title }</NavLink></h5>
+                                                <p><strong>Price: </strong>{item.price}</p>
                                                 <p>{ item.description }</p>
+                                                <AddToCart pid={item.id} title={item.title} price={item.price} image={item.image} cartObj={cObj} cartCallBack={myupdateCart} />
                                             </div>
                                         </div>
                                     </div>
