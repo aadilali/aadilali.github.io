@@ -44,7 +44,7 @@ function TopProducts() {
                 <section className="categories-area section-padding3">
                     <div className="container">
 
-                        <NewForm />
+                        {/* <NewForm /> */}
                         <div className="row">
                             <div className="col-lg-6">
                                 <div className="section-tittle mb-70">
