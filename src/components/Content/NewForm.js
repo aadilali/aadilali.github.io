@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-function NewForm() {
+function NewForm(props) {
     
     const [fObj, setFval] = useState({fname: '', email: ''});
     

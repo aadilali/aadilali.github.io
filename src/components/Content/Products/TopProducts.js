@@ -2,15 +2,21 @@ import React, { useState, useEffect, useContext }  from 'react';
 
 import {NavLink} from 'react-router-dom';
 import AddToCart from './AddToCart';
-import CartContext from '../../../contexts/CartContext';
+
+// import CartContext from '../../../contexts/CartContext';
 
 import NewForm from '../NewForm';
+import { setTechnology, store, addProduct } from '../../../reducres/counterReducer';
+import { mapStateToProps, mapDispatchToProps } from '../../../reducres/mapStateToProps';
 
-function TopProducts() {
+import { connect } from 'react-redux';
+function TopProducts(props) {
     
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
+
+    // const [cObj, myupdateCart] = useContext(CartContext);
     
     useEffect(() => {
 
@@ -33,7 +39,42 @@ function TopProducts() {
                 )
     }, []);
 
-    const [cObj, myupdateCart] = useContext(CartContext);
+    const addToCart = (pObj) => {
+
+        //props.addToCart(pObj);
+       // mapDispatchToProps.addToCart(addProduct(pObj))
+       // store.dispatch(addProduct(pObj));
+        // debugger;
+        // // Traverse Current cObj
+        // let stateObj =  {
+        //     ...store.getState()
+        // };
+        // let cartitemObj = null;
+        // let currentCart = {
+        //     pid: pObj.pid,
+        //     title: pObj.title,
+        //     price: pObj.price,
+        //     image: pObj.image,
+        //     qty: 1
+        // }
+        // // const isExist = cObj.product.findIndex( proItem => {
+        // //     return proItem.pid === currentCart.pid;
+        // // });
+        
+        // const isExist = stateObj.product.findIndex( proItem => {
+        //         return proItem.pid === currentCart.pid;
+        //     });
+
+        // if(isExist > -1) {
+        //     //cartitemObj = {...store.getState()};
+        //     stateObj.product[isExist].qty +=1;
+        //     store.dispatch(addProduct(stateObj));
+        // } else {
+        //     //stateObj.product.push(currentCart);
+               
+        // }
+       // myupdateCart();
+    } 
 
     if (error) {
         return <div>Error: {error.message}</div>;
@@ -64,7 +105,7 @@ function TopProducts() {
                                                 <h5><NavLink to={ '/product/'+item.id }>{ item.title }</NavLink></h5>
                                                 <p><strong>Price: </strong>{item.price}</p>
                                                 <p>{ item.description }</p>
-                                                <AddToCart pid={item.id} title={item.title} price={item.price} image={item.image} cartObj={cObj} cartCallBack={myupdateCart} />
+                                                <AddToCart pid={item.id} title={item.title} price={item.price} image={item.image} />
                                             </div>
                                         </div>
                                     </div>
@@ -77,4 +118,18 @@ function TopProducts() {
       }
 }
 
-export default TopProducts;
+// const mapStateToProps = (state)=>{
+//     return {
+//        product: state.product
+//     }
+//   }
+// const mapDispatchToProps= (dispatch)=>{
+    
+//     return{
+//         addToCart: (pObj)=>{dispatch(addProduct(pObj))}
+//     }
+// }
+
+export default connect(mapStateToProps,mapDispatchToProps)(TopProducts)
+
+// export default TopProducts;

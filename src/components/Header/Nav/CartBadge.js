@@ -1,16 +1,17 @@
 import React, { useContext } from 'react';
 
-import CartContext from '../../../contexts/CartContext';
+import { mapStateToProps, mapDispatchToProps } from '../../../reducres/mapStateToProps';
+import  { connect } from 'react-redux';
 
-function CartBadge() {
+function CartBadge(props) {
     
-    const[cartObj] = useContext(CartContext);
+    const cartObj = props.product;
 
     //const cartObj = props.context_object;
-    console.log('BADGE');
+    console.log('BADGE', props);
     let totalItem = 0;
-    if(cartObj.product.length) {
-        cartObj.product.map( proItem => {
+    if(cartObj.length) {
+        cartObj.map( proItem => {
             return totalItem += proItem.qty;
         })
     } 
@@ -34,4 +35,4 @@ function CartBadge() {
     
 }
  
-export default CartBadge;
+export default connect(mapStateToProps, mapDispatchToProps) (CartBadge);

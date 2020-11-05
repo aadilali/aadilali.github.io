@@ -1,17 +1,23 @@
-import React, {useState, useMemo} from 'react';
+import React, { useState, useMemo } from "react";
 
-import Header from '../Header/Header';
-import Hero from '../Content/Hero/Hero';
-import TopProducts from '../Content/Products/TopProducts';
-import ProductDetail from '../Content/Products/ProductsDetail';
-import CartContext, { products } from '../../contexts/CartContext';
-import Cart from '../Content/Products/Cart';
+import Header from "../Header/Header";
+import Hero from "../Content/Hero/Hero";
+import TopProducts from "../Content/Products/TopProducts";
+import ProductDetail from "../Content/Products/ProductsDetail";
+import CartContext, { products } from "../../contexts/CartContext";
+import Cart from "../Content/Products/Cart";
+import { Provider, ReactReduxContext } from 'react-redux';
+import { Route, Redirect, Switch } from "react-router-dom";
+import HelloWorld from "./HelloWorld";
 
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { setTechnology, store } from '../../reducres/counterReducer';
+import { mapStateToProps, mapDispatchToProps } from '../../reducres/mapStateToProps';
+import { connect } from 'react-redux';
+
+
 
 function App() {
-
-  const[pObj, setCart] = useState(products);
+  //const [pObj, setCart] = useState(products);
 
   // const updateData = () => {
   //   setCart(
@@ -20,12 +26,19 @@ function App() {
   //     }
   //   )
   // }
-  console.log("APP");
 
   return (
-    <CartContext.Provider value={[products, () => ( setCart({ abc: pObj }))]}>
       <div className="App">
-        { useMemo( () => <Header /> ,[] )}
+         {/* <HelloWorld tech={props.tech} />  */}
+        {/* <button onClick={() => props.setTechnology('REACT')}>React</button>
+        <button onClick={() => props.setTechnology('ANGULAR')}>Angular</button>
+        <button onClick={() => props.setTechnology('WORDPRESS')}>WordPress</button> */}
+       {useMemo(
+          () => (
+            <Header />
+          ),
+          []
+        )} 
         {/* <Route path='/home' render={ props =>
           <div>
             <Hero />
@@ -33,15 +46,14 @@ function App() {
           </div>
         } /> */}
         <Switch>
-          <Route path='/home' component={Hero} />
-          <Route path='/products' component={TopProducts} />
-          <Route path='/product/:pid' component={ProductDetail} />
-          <Route path='/cart' component={Cart} />
-          <Redirect to='/home' />
+          <Route path="/products" component={TopProducts} />
+          <Route path="/product/:pid" component={ProductDetail} />
+          {/* <Route path="/cart" component={Cart} /> */}
+          <Route path="/" component={Hero} />
         </Switch>
       </div>
-    </CartContext.Provider>
   );
 }
 
 export default App;
+

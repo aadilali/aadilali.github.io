@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 const cache = {};
 
@@ -7,7 +7,7 @@ function useFetch(url) {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [product, setProduct] = useState([]);
-    
+
     useEffect(() => {
 
         if (!url) return;
@@ -17,9 +17,9 @@ function useFetch(url) {
         if (cache[url]) {
             const data = cache[url];
             setProduct(data);
-            setIsLoaded(true); 
-        } 
-       
+            setIsLoaded(true);
+        }
+
         fetch(url)
             .then(res => {
                 let test = res.json();
@@ -39,7 +39,7 @@ function useFetch(url) {
                     setError(error);
                 }
             );
-        
+
     }, [url]);
 
     return [product, error, isLoaded];

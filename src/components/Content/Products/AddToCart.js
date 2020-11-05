@@ -1,35 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from '../../../reducres/mapStateToProps';
+
 
 function AddToCart(props) {
-
-    const addToCart = (pObj) => {
-        let cObj = pObj.cartObj;
-
-        // Traverse Current cObj
-        let cartitemObj = null;
-        const isExist = cObj.product.findIndex( proItem => {
-            return proItem.pid === pObj.pid;
-        });
-
-        if(isExist > -1) {
-            cObj.product[isExist].qty +=1;
-        } else {
-            cartitemObj = {...pObj, 'qty': 1};    
-            cObj.product.push(cartitemObj);
-        }
-        pObj.cartCallBack();
-    } 
-
-     return (  
-            <div className="addCart">
-                <button className="btn btn-primary" onClick={addToCart.bind(this, props)}>Add to Cart</button>
-            </div>
-            
-    )
+    console.log('A TO C', props);
     
-} 
- 
-export default AddToCart;
+    const handleClick = (props) => {
+        const currentCart = {
+            pid: props.pid,
+            title: props.title,
+            price: props.price,
+            image: props.image,
+            qty: 1
+        }
+
+        props.setCart(currentCart);
+
+    }
+    return (
+        <div className="addCart">
+            <button className="btn btn-primary" onClick={handleClick.bind(this, props)}>Add to Cart</button>
+        </div>
+    )
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AddToCart);
+//export default AddToCart;
 // class AddToCart extends React.Component {
 //     constructor(props) {
 //         super(props);
@@ -54,7 +52,7 @@ export default AddToCart;
 //             <div className="addCart"><button className="btn btn-primary" id={this.props.pid} title={this.props.title} onClick={this.addToCart.bind(this, this.props)}>Add to Cart</button></div>
 //         )
 //     }
-    
+
 // }
- 
+
 // export default AddToCart;
